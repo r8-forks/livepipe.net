@@ -1,5 +1,5 @@
 /**
- * @author Ryan Johnson <http://syntacticx.com/>
+ * @author Ryan Eastridge <http://eastridge.me/>
  * @copyright 2008 PersonalGrid Corporation <http://personalgrid.com/>
  * @package LivePipe UI
  * @license MIT
