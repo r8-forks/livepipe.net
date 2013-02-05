@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+	<head>
+                <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+		<title>Control.SelectMultiple : Unobtrusive select multiple input alternative for Prototype</title>
+		<link rel="stylesheet" href="/stylesheets/screen.css" media="screen"/>
+                <script src="/javascripts/all.js?1256410438" type="text/javascript"></script>
+		
+	<style>
+		
+	/* CSS is mostly for the complex example */
+	
+	#select_multiple_one,
+	#select_multiple_two {
+		width:200px;
+	}
+	
+	#select_two_container {
+		position:relative;
+	}
+	
+	.select_multiple_submit {
+		background-image:url("/stylesheets/popup_footer.gif");
+		background-image:top center;
+		background-repeat:repeat-x;
+		padding:10px;
+		height:22px;
+		text-align:right;
+	}
+
+	.select_multiple_label {
+		margin-left:5px;
+		font-family:"Lucida Grande",Verdana;
+		font-size:11px;
+	}
+
+	.select_multiple_container {
+		width:300px;
+		position:absolute;
+		top:0;
+		left:0;
+		z-index:500;
+		border:1px solid #222;
+		border-top:none;
+	}
+
+	.select_multiple_container .select_multiple_header {
+		background-image:url("/stylesheets/black_background.gif");
+		background-repeat:repeat-x;
+		background-position:top center;
+		color:#eee;
+		font-family:"Lucida Grande",Verdana;
+		font-weight:bold;
+		font-size:12px;
+		margin:0;
+		padding:7px 0 8px 10px;
+		background-color:#000;
+	}
+	
+	table.select_multiple_table td {
+		height:27px;
+		border-bottom:1px solid #ddd;
+		font-family:"Lucida Grande",Verdana;
+		color:#333;
+		font-size:11px;
+	}
+	
+	table.select_multiple_table tr.even {
+		background-color:#FCFCFC;
+	}
+
+	table.select_multiple_table tr.odd {
+		background-color:#F7F7F7;
+	}
+	
+	table.select_multiple_table tr.selected {
+		background-image:none;
+		background-color:#D9E9FE;
+	}
+	
+	.select_multiple_name {
+		padding-left:15px;
+		font-weight:bold;
+	}
+	
+	.select_multiple_checkbox {
+		text-align:right;
+	}
+	
+	.select_multiple_checkbox input {
+		margin-right:15px;
+	}
+
+	</style>
+	<script>
+		document.observe('dom:loaded',function(){
+			
+	//this is for the simple example
+	new Control.SelectMultiple('select_multiple_one','select_multiple_options_one',{
+		//afterChange is completely optional, we just use it to show the viewer what the value of the select is in this case
+		afterChange: function(value){
+			$('select_multiple_one_value').value = value;
+		}
+	});
+	
+	//complex example, note how we need to pass in different CSS selectors because of the complex HTML structure
+	var select_multiple_two = new Control.SelectMultiple('select_multiple_two','select_multiple_two_options',{
+		checkboxSelector: 'table.select_multiple_table tr td input[type=checkbox]',
+		nameSelector: 'table.select_multiple_table tr td.select_multiple_name',
+		afterChange: function(){
+			if(select_multiple_two && select_multiple_two.setSelectedRows)
+				select_multiple_two.setSelectedRows();
+		}
+	});
+	
+	//adds and removes highlighting from table rows
+	select_multiple_two.setSelectedRows = function(){
+		this.checkboxes.each(function(checkbox){
+			var tr = $(checkbox.parentNode.parentNode);
+			tr.removeClassName('selected');
+			if(checkbox.checked)
+				tr.addClassName('selected');
+		});
+	}.bind(select_multiple_two);
+	select_multiple_two.checkboxes.each(function(checkbox){
+		$(checkbox).observe('click',select_multiple_two.setSelectedRows);
+	});
+	select_multiple_two.setSelectedRows();
+	
+	//link open and closing
+	$('select_multiple_two_open').observe('click',function(event){
+		$(this.select).style.visibility = 'hidden';
+		new Effect.BlindDown(this.container,{
+			duration: 0.3
+		});
+		Event.stop(event);
+		return false;
+	}.bindAsEventListener(select_multiple_two));
+	$('select_multiple_two_close').observe('click',function(event){
+		$(this.select).style.visibility = 'visible';
+		new Effect.BlindUp(this.container,{
+			duration: 0.3
+		});
+		Event.stop(event);
+		return false;
+	}.bindAsEventListener(select_multiple_two));		
+
+		});
+	</script>
+
+	</head>
+	<body class="control">
+		
+		<div id="outer_container">
+			<div id="container">
+				<div id="header">
+					<h2><a href="http://livepipe.net/"><span>LivePipe&trade; : User Interface Components for Prototype</span></a></h2>
+					<ul id="navigation">
+						<li><a href="http://livepipe.net/">Home</a></li>
+						<li><a href="http://livepipe.net/core">Core</a></li>
+						<li class="active"><a href="http://livepipe.net/control">Controls</a></li>
+						<li><a href="http://livepipe.net/extra">Extras</a></li>
+						<li><a href="http://livepipe.net/download">Download &amp; Contribute</a></li>
+					</ul>
+				</div>
+				<div id="main">
+					<div id="main_container">
+						<a href="http://syntacticx.com/" id="syntacticx"><span>Created by Syntacticx</span></a>
+						<ul id="subnavigation">
+	<li class="first"><a href="http://livepipe.net/control/contextmenu">ContextMenu</a></li>
+	<!--<li><a href="http://livepipe.net/control/pagination">Pagination</a></li>-->
+	<li><a href="http://livepipe.net/control/progressbar">ProgressBar</a></li>
+	<li><a href="http://livepipe.net/control/rating">Rating</a></li>
+	<li><a href="http://livepipe.net/control/scrollbar">ScrollBar</a></li>
+	<li class="active"><a href="http://livepipe.net/control/selectmultiple">SelectMultiple</a></li>
+	<li><a href="http://livepipe.net/control/selection">Selection</a></li>
+	<li><a href="http://livepipe.net/control/tabs">Tabs</a></li>
+	<li><a href="http://livepipe.net/control/textarea">TextArea</a></li>
+	<li><a href="http://livepipe.net/control/window">Window</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h1>Control.SelectMultiple</h1>
+<p class="introduction">Unobtrusive select multiple input alternative for Prototype.</p>
+
+
+
+	
+	
+	
+<ul class="subsection_tabs" id="main_tabs" style="clear:none;">
+
+	<li class="source_code"><a href="http://github.com/beastridge/livepipe-ui/tree/master/src/selectmultiple.js">selectmultiple.js source</a></li>
+
+
+	<li class="tab"><a href="#tutorial">Tutorial</a></li>
+
+	<li class="tab"><a href="#api">API</a></li>
+
+</ul>
+<script>
+	document.observe('dom:loaded',function(){
+		new Control.Tabs('main_tabs',{
+			linkSelector: 'li.tab a'
+		});
+	});
+</script>
+
+
+<div id="tutorial">
+	<h3>Introduction</h3>
+	<p>This control uses a combination of a standard select input, and a collection of checkbox inputs to create an alternative to the standard select multiple control. It's primary benefit besides a vastly improved experience for selecting multiple items is that for single item selection, it behaves like a normal select input.</p>
+	<p>As demonstrated below, selecting an item in the select input will check the appropriate box, and checking one of the checkboxes will select the appropriate option in the select. If multiple boxes are checked a new option is dynamically added to the select. All aspects of this behavior can be programatically controlled.</p>
+	<h3>Examples</h3>
+	<p>Below is a simple, unstyled example. Check one or more boxes, then change the select input to see how it behaves.</p>
+	
+	<!-- Simple example HTML -->
+	<select id="select_multiple_one">
+		<option value="1">One</option>
+		<option value="2">Two</option>
+		<option value="3">Three</option>
+	</select>
+	<span id="select_multiple_options_one">
+		<input type="checkbox" value="1"/><span class="name">One</span>
+		<input type="checkbox" value="2"/><span class="name">Two</span>
+		<input type="checkbox" value="3"/><span class="name">Three</span>
+	</span>
+	<b>Value in Form:</b> <input readonly="true" type="text" id="select_multiple_one_value"/>
+
+	<p>The next example is more in line with it's intended use case. Note that the effects are not part of this library, but are easily accomplished with Scriptaculous. Try selecting many values to see the overflow behavior described in the API section.</p>
+	
+	<!-- Complex example HTML -->
+	<div id="select_two_container">
+		<select id="select_multiple_two">
+			<option value="tigers">Tigers</option>
+			<option value="lions">Lions</option>
+			<option value="kitties">Kitties</option>
+			<option value="lygers">Lygers</option>
+			<option value="pumas">Pumas</option>
+			<option value="cheetahs">Cheetahs</option>
+		</select>
+		<a href="" id="select_multiple_two_open">Select Multiple</a>
+		<div style="display:none;" id="select_multiple_two_options" class="select_multiple_container">
+			<div class="select_multiple_header">Select Multiple Felines</div>
+			<table cellspacing="0" cellpadding="0" class="select_multiple_table" width="100%">
+				<tr class="odd">
+					<td class="select_multiple_name">Tigers</td>
+					<td class="select_multiple_checkbox"><input type="checkbox" value="tigers"/></td>
+				</tr>
+				<tr class="even">
+					<td class="select_multiple_name">Lions</td>
+					<td class="select_multiple_checkbox"><input type="checkbox" value="lions"/></td>
+				</tr>
+				<tr class="odd">
+					<td class="select_multiple_name">Kitties</td>
+					<td class="select_multiple_checkbox"><input type="checkbox" value="kitties"/></td>
+				</tr>
+				<tr class="even">
+					<td class="select_multiple_name">Lygers</td>
+					<td class="select_multiple_checkbox"><input type="checkbox" value="lygers"/></td>
+				</tr>
+				<tr class="odd">
+					<td class="select_multiple_name">Pumas</td>
+					<td class="select_multiple_checkbox"><input type="checkbox" value="pumas"/></td>
+				</tr>
+				<tr class="even">
+					<td class="select_multiple_name">Cheetahs</td>
+					<td class="select_multiple_checkbox"><input type="checkbox" value="cheetahs"/></td>
+				</tr>
+			</table>
+			<div class="select_multiple_submit"><input type="button" value="Done" id="select_multiple_two_close"/></div>
+		</div>
+	</div>
+
+	<h3>HTML</h3><pre class="highlighted"><code class="xml">
+	&lt;!-- Simple example HTML --&gt;
+	&lt;select id=&quot;select_multiple_one&quot;&gt;
+		&lt;option value=&quot;1&quot;&gt;One&lt;/option&gt;
+		&lt;option value=&quot;2&quot;&gt;Two&lt;/option&gt;
+		&lt;option value=&quot;3&quot;&gt;Three&lt;/option&gt;
+	&lt;/select&gt;
+	&lt;span id=&quot;select_multiple_options_one&quot;&gt;
+		&lt;input type=&quot;checkbox&quot; value=&quot;1&quot;/&gt;&lt;span class=&quot;name&quot;&gt;One&lt;/span&gt;
+		&lt;input type=&quot;checkbox&quot; value=&quot;2&quot;/&gt;&lt;span class=&quot;name&quot;&gt;Two&lt;/span&gt;
+		&lt;input type=&quot;checkbox&quot; value=&quot;3&quot;/&gt;&lt;span class=&quot;name&quot;&gt;Three&lt;/span&gt;
+	&lt;/span&gt;
+	&lt;b&gt;Value in Form:&lt;/b&gt; &lt;input readonly=&quot;true&quot; type=&quot;text&quot; id=&quot;select_multiple_one_value&quot;/&gt;
+
+	&lt;!-- Complex example HTML --&gt;
+	&lt;div id=&quot;select_two_container&quot;&gt;
+		&lt;select id=&quot;select_multiple_two&quot;&gt;
+			&lt;option value=&quot;tigers&quot;&gt;Tigers&lt;/option&gt;
+			&lt;option value=&quot;lions&quot;&gt;Lions&lt;/option&gt;
+			&lt;option value=&quot;kitties&quot;&gt;Kitties&lt;/option&gt;
+			&lt;option value=&quot;lygers&quot;&gt;Lygers&lt;/option&gt;
+			&lt;option value=&quot;pumas&quot;&gt;Pumas&lt;/option&gt;
+			&lt;option value=&quot;cheetahs&quot;&gt;Cheetahs&lt;/option&gt;
+		&lt;/select&gt;
+		&lt;a href=&quot;&quot; id=&quot;select_multiple_two_open&quot;&gt;Select Multiple&lt;/a&gt;
+		&lt;div style=&quot;display:none;&quot; id=&quot;select_multiple_two_options&quot; class=&quot;select_multiple_container&quot;&gt;
+			&lt;div class=&quot;select_multiple_header&quot;&gt;Select Multiple Felines&lt;/div&gt;
+			&lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; class=&quot;select_multiple_table&quot; width=&quot;100%&quot;&gt;
+				&lt;tr class=&quot;odd&quot;&gt;
+					&lt;td class=&quot;select_multiple_name&quot;&gt;Tigers&lt;/td&gt;
+					&lt;td class=&quot;select_multiple_checkbox&quot;&gt;&lt;input type=&quot;checkbox&quot; value=&quot;tigers&quot;/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr class=&quot;even&quot;&gt;
+					&lt;td class=&quot;select_multiple_name&quot;&gt;Lions&lt;/td&gt;
+					&lt;td class=&quot;select_multiple_checkbox&quot;&gt;&lt;input type=&quot;checkbox&quot; value=&quot;lions&quot;/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr class=&quot;odd&quot;&gt;
+					&lt;td class=&quot;select_multiple_name&quot;&gt;Kitties&lt;/td&gt;
+					&lt;td class=&quot;select_multiple_checkbox&quot;&gt;&lt;input type=&quot;checkbox&quot; value=&quot;kitties&quot;/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr class=&quot;even&quot;&gt;
+					&lt;td class=&quot;select_multiple_name&quot;&gt;Lygers&lt;/td&gt;
+					&lt;td class=&quot;select_multiple_checkbox&quot;&gt;&lt;input type=&quot;checkbox&quot; value=&quot;lygers&quot;/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr class=&quot;odd&quot;&gt;
+					&lt;td class=&quot;select_multiple_name&quot;&gt;Pumas&lt;/td&gt;
+					&lt;td class=&quot;select_multiple_checkbox&quot;&gt;&lt;input type=&quot;checkbox&quot; value=&quot;pumas&quot;/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr class=&quot;even&quot;&gt;
+					&lt;td class=&quot;select_multiple_name&quot;&gt;Cheetahs&lt;/td&gt;
+					&lt;td class=&quot;select_multiple_checkbox&quot;&gt;&lt;input type=&quot;checkbox&quot; value=&quot;cheetahs&quot;/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/table&gt;
+			&lt;div class=&quot;select_multiple_submit&quot;&gt;&lt;input type=&quot;button&quot; value=&quot;Done&quot; id=&quot;select_multiple_two_close&quot;/&gt;&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+</code></pre>
+	<h3>JavaScript</h3><pre class="highlighted"><code class="javascript">
+	//this is for the simple example
+	new Control.SelectMultiple('select_multiple_one','select_multiple_options_one',{
+		//afterChange is completely optional, we just use it to show the viewer what the value of the select is in this case
+		afterChange: function(value){
+			$('select_multiple_one_value').value = value;
+		}
+	});
+	
+	//complex example, note how we need to pass in different CSS selectors because of the complex HTML structure
+	var select_multiple_two = new Control.SelectMultiple('select_multiple_two','select_multiple_two_options',{
+		checkboxSelector: 'table.select_multiple_table tr td input[type=checkbox]',
+		nameSelector: 'table.select_multiple_table tr td.select_multiple_name',
+		afterChange: function(){
+			if(select_multiple_two && select_multiple_two.setSelectedRows)
+				select_multiple_two.setSelectedRows();
+		}
+	});
+	
+	//adds and removes highlighting from table rows
+	select_multiple_two.setSelectedRows = function(){
+		this.checkboxes.each(function(checkbox){
+			var tr = $(checkbox.parentNode.parentNode);
+			tr.removeClassName('selected');
+			if(checkbox.checked)
+				tr.addClassName('selected');
+		});
+	}.bind(select_multiple_two);
+	select_multiple_two.checkboxes.each(function(checkbox){
+		$(checkbox).observe('click',select_multiple_two.setSelectedRows);
+	});
+	select_multiple_two.setSelectedRows();
+	
+	//link open and closing
+	$('select_multiple_two_open').observe('click',function(event){
+		$(this.select).style.visibility = 'hidden';
+		new Effect.BlindDown(this.container,{
+			duration: 0.3
+		});
+		Event.stop(event);
+		return false;
+	}.bindAsEventListener(select_multiple_two));
+	$('select_multiple_two_close').observe('click',function(event){
+		$(this.select).style.visibility = 'visible';
+		new Effect.BlindUp(this.container,{
+			duration: 0.3
+		});
+		Event.stop(event);
+		return false;
+	}.bindAsEventListener(select_multiple_two));		
+</code></pre>
+	<h3>CSS</h3><pre class="highlighted"><code class="css">
+	/* CSS is mostly for the complex example */
+	
+	#select_multiple_one,
+	#select_multiple_two {
+		width:200px;
+	}
+	
+	#select_two_container {
+		position:relative;
+	}
+	
+	.select_multiple_submit {
+		background-image:url("/stylesheets/popup_footer.gif");
+		background-image:top center;
+		background-repeat:repeat-x;
+		padding:10px;
+		height:22px;
+		text-align:right;
+	}
+
+	.select_multiple_label {
+		margin-left:5px;
+		font-family:"Lucida Grande",Verdana;
+		font-size:11px;
+	}
+
+	.select_multiple_container {
+		width:300px;
+		position:absolute;
+		top:0;
+		left:0;
+		z-index:500;
+		border:1px solid #222;
+		border-top:none;
+	}
+
+	.select_multiple_container .select_multiple_header {
+		background-image:url("/stylesheets/black_background.gif");
+		background-repeat:repeat-x;
+		background-position:top center;
+		color:#eee;
+		font-family:"Lucida Grande",Verdana;
+		font-weight:bold;
+		font-size:12px;
+		margin:0;
+		padding:7px 0 8px 10px;
+		background-color:#000;
+	}
+	
+	table.select_multiple_table td {
+		height:27px;
+		border-bottom:1px solid #ddd;
+		font-family:"Lucida Grande",Verdana;
+		color:#333;
+		font-size:11px;
+	}
+	
+	table.select_multiple_table tr.even {
+		background-color:#FCFCFC;
+	}
+
+	table.select_multiple_table tr.odd {
+		background-color:#F7F7F7;
+	}
+	
+	table.select_multiple_table tr.selected {
+		background-image:none;
+		background-color:#D9E9FE;
+	}
+	
+	.select_multiple_name {
+		padding-left:15px;
+		font-weight:bold;
+	}
+	
+	.select_multiple_checkbox {
+		text-align:right;
+	}
+	
+	.select_multiple_checkbox input {
+		margin-right:15px;
+	}
+</code></pre>
+</div>
+
+<div id="api">
+	
+		
+		
+		
+		
+		
+		
+		
+	<h3>Instance</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Return</td><td>Name</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="type first">Control.SelectMultiple</td><td class="signature"><b>initialize(Element select, Element container [,Hash options])</b></td><td class="last">Pass in string ids, or Element objects to the select input, and a container with checkboxes.</td></tr>
+		
+			<tr class="odd"><td class="type first">null</td><td class="signature"><b>setValue(mixed value)</b></td><td class="last">value string should be a string of values separated by the valueSeparator, or an array of values.</td></tr>
+		
+			<tr class="even"><td class="type first">Array</td><td class="signature"><b>checkboxes</b></td><td class="last"></td></tr>
+		
+			<tr class="odd"><td class="type first">Element</td><td class="signature"><b>container</b></td><td class="last"></td></tr>
+		
+			<tr class="even"><td class="type first">bool</td><td class="signature"><b>hasExtraOption</b></td><td class="last"></td></tr>
+		
+			<tr class="odd"><td class="type first">number</td><td class="signature"><b>numberOfCheckedBoxes</b></td><td class="last"></td></tr>
+		
+			<tr class="even"><td class="type first">Element</td><td class="signature"><b>select</b></td><td class="last"></td></tr>
+		
+	</tbody>
+</table>
+	
+		
+		
+		
+		
+		
+		
+	<h3>Options</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Type</td><td>Name</td><td>Default</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="type first">string</td><td><b>checkboxSelector</b></td><td class="default">'input[type=checkbox]'</td><td class="last">CSS selector applied to the container to get the list of checkboxes.</td></tr>
+		
+			<tr class="odd"><td class="type first">string</td><td><b>labelSeparator</b></td><td class="default">', '</td><td class="last"></td></tr>
+		
+			<tr class="even"><td class="type first">string</td><td><b>nameSelector</b></td><td class="default">'span.name'</td><td class="last">CSS selector applied to the container to get the list of labels.</td></tr>
+		
+			<tr class="odd"><td class="type first">number</td><td><b>overflowLength</b></td><td class="default">30</td><td class="last">Number of characters in the label before it is replaced with overflowString.</td></tr>
+		
+			<tr class="even"><td class="type first">mixed</td><td><b>overflowString</b></td><td class="default">function(str){return str.truncate();}</td><td class="last">string, or a function that returns a string if the label is to long for the input.</td></tr>
+		
+			<tr class="odd"><td class="type first">string</td><td><b>valueSeparator</b></td><td class="default">','</td><td class="last"></td></tr>
+		
+	</tbody>
+</table>
+
+	
+		
+	<h3>Events</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Name</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="first"><b>afterChange(string value)</b></td><td class="last">Called whenever the value of the select changes. This is more inclusive than the 'change' event of the select Element, because it includes when a checkbox is clicked, or when setValue() is called.</td></tr>
+		
+	</tbody>	
+</table>	
+
+</div>
+
+						
+						
+						
+					</div>
+				</div>
+				<div id="footer">
+					<p>Created by <a href="http://syntacticx.com/">Ryan Johnson</a> &copy; 2008 <a href="http://personalgrid.com/">PersonalGrid Corporation</a></p>
+				</div>
+			</div>
+		</div>
+                <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+                <script type="text/javascript">
+//<![CDATA[
+
+                  _uacct = "UA-176241-1"; urchinTracker();
+                
+//]]>
+</script>
+
+	</body>
+</html>

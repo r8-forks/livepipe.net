@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+	<head>
+                <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+		<title>Control.Rating : Unobtrusive CSS based rating widget for Prototype</title>
+		<link rel="stylesheet" href="/stylesheets/screen.css" media="screen"/>
+                <script src="/javascripts/all.js?1256410438" type="text/javascript"></script>
+		
+	<style>
+		
+	.rating_container {
+		clear:both;
+	}
+
+	.rating_container a {
+		float:left;
+		display:block;
+		width:25px;
+		height:25px;
+		border:0;
+		background-image:url("/stylesheets/rating.gif");
+	}
+	
+	.rating_container a.rating_off {
+		background-position:0 0px;
+	}
+	
+	.rating_container a.rating_half {
+		background-position:0 -25px;
+	}
+	
+	.rating_container a.rating_on {
+		background-position:0 -50px;
+	}
+	
+	.rating_container a.rating_selected {
+		background-position:0 -75px;
+	}
+
+	</style>
+	<script>
+		document.observe('dom:loaded',function(){
+			
+	var rating_one = new Control.Rating('rating_one');
+	var rating_two = new Control.Rating('rating_two',{value: 2.4});
+	var rating_four = new Control.Rating('rating_four',{value: 4,rated: true});
+	var rating_five = new Control.Rating('rating_five',{value: 6,rated: false,max:9});
+	var rating_six = new Control.Rating('rating_six',{
+		value: 6,
+		rated: false,
+		min: 3,
+		max: 12,
+		multiple: true,
+		reverse: true
+	});
+	var rating_seven = new Control.Rating('rating_seven',{
+		input: 'rating_seven_input',
+		multiple: true
+	});
+	var rating_eight = new Control.Rating('rating_eight',{
+		input: 'rating_eight_select',
+		multiple: true
+	});
+
+		});
+	</script>
+
+	</head>
+	<body class="control">
+		
+		<div id="outer_container">
+			<div id="container">
+				<div id="header">
+					<h2><a href="http://livepipe.net/"><span>LivePipe&trade; : User Interface Components for Prototype</span></a></h2>
+					<ul id="navigation">
+						<li><a href="http://livepipe.net/">Home</a></li>
+						<li><a href="http://livepipe.net/core">Core</a></li>
+						<li class="active"><a href="http://livepipe.net/control">Controls</a></li>
+						<li><a href="http://livepipe.net/extra">Extras</a></li>
+						<li><a href="http://livepipe.net/download">Download &amp; Contribute</a></li>
+					</ul>
+				</div>
+				<div id="main">
+					<div id="main_container">
+						<a href="http://syntacticx.com/" id="syntacticx"><span>Created by Syntacticx</span></a>
+						<ul id="subnavigation">
+	<li class="first"><a href="http://livepipe.net/control/contextmenu">ContextMenu</a></li>
+	<!--<li><a href="http://livepipe.net/control/pagination">Pagination</a></li>-->
+	<li><a href="http://livepipe.net/control/progressbar">ProgressBar</a></li>
+	<li class="active"><a href="http://livepipe.net/control/rating">Rating</a></li>
+	<li><a href="http://livepipe.net/control/scrollbar">ScrollBar</a></li>
+	<li><a href="http://livepipe.net/control/selectmultiple">SelectMultiple</a></li>
+	<li><a href="http://livepipe.net/control/selection">Selection</a></li>
+	<li><a href="http://livepipe.net/control/tabs">Tabs</a></li>
+	<li><a href="http://livepipe.net/control/textarea">TextArea</a></li>
+	<li><a href="http://livepipe.net/control/window">Window</a></li>
+</ul>
+
+
+
+
+
+<h1>Control.Rating</h1>
+<p class="introduction">Unobtrusive CSS based rating widget for Prototype.</p>
+
+
+
+	
+	
+	
+<ul class="subsection_tabs" id="main_tabs" style="clear:none;">
+
+	<li class="source_code"><a href="http://github.com/beastridge/livepipe-ui/tree/master/src/rating.js">rating.js source</a></li>
+
+
+	<li class="tab"><a href="#tutorial">Tutorial</a></li>
+
+	<li class="tab"><a href="#api">API</a></li>
+
+</ul>
+<script>
+	document.observe('dom:loaded',function(){
+		new Control.Tabs('main_tabs',{
+			linkSelector: 'li.tab a'
+		});
+	});
+</script>
+
+
+<div id="tutorial">
+	<h3>Introduction</h3><p>Control.Rating attaches to any div, span or table cell on your page in one line of code to create a fully customizable CSS based ratings widget. Each control can optionally post an Ajax request when it's value is set, or can interact with text inputs or select elements that are already on your page. It uses four (customizable) class names to determine each link's state:</p>
+	<ul>
+		<li>rating_off</li>
+		<li>rating_half</li>
+		<li>rating_on</li>
+		<li>rating_selected</li>
+	</ul>
+
+	<table width="100%" cellpadding="0" cellspacing="0" class="api_table">
+		<thead>
+			<tr><td>Example</td><td class="right">Options</td></tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><div id="rating_one" class="rating_container">
+					<a href="#" class="rating_on"></a>
+					<a href="#" class="rating_on"></a>
+					<a href="#" class="rating_half"></a>
+					<a href="#" class="rating_off"></a>
+					<a href="#" class="rating_off"></a>
+				</div></td>
+				<td class="right">{}</td>
+			</tr>
+			<tr>
+				<td><div id="rating_two" class="rating_container"></div></td>
+				<td class="right">{value: 2.4}</td>
+			</tr>
+			<tr>
+				<td><div id="rating_four" class="rating_container"></div></td>
+				<td class="right">{value: 4, rated: true}</td>
+			</tr>
+			<tr>
+				<td><div id="rating_five" class="rating_container"></div></td>
+				<td class="right">{value: 6, rated: false, max:9}</td>
+			</tr>
+			<tr>
+				<td><div id="rating_six" class="rating_container"></div></td>
+				<td class="right">{value: 6, rated: false, min: 3, max: 12, multiple: true, reverse: true}</td>
+			</tr>
+			<tr>
+				<td><div id="rating_seven" class="rating_container"></div><input id="rating_seven_input" value="2" style="width:50px;"/></td>
+				<td class="right">{input: 'rating_seven_input', multiple: true}</td>
+			</tr>
+			<tr>
+				<td><div id="rating_eight" class="rating_container"></div>
+				<select id="rating_eight_select">
+					<option value="1">Bad</option>
+					<option value="2">Good</option>
+					<option value="3">Great</option>
+					<option value="4">Excellent</option>
+					<option value="5">Really Excellent</option>
+				</select></td>
+				<td class="right">{input: 'rating_eight_select', multiple: true}</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<h3>HTML</h3><pre class="highlighted"><code class="xml">
+		&lt;!-- you can pre-populate a rating with the HTML the rating will generate--&gt;
+		&lt;div id=&quot;rating_one&quot; class=&quot;rating_container&quot;&gt;
+			&lt;a href=&quot;#&quot; class=&quot;rating_on&quot;&gt;&lt;/a&gt;
+			&lt;a href=&quot;#&quot; class=&quot;rating_on&quot;&gt;&lt;/a&gt;
+			&lt;a href=&quot;#&quot; class=&quot;rating_half&quot;&gt;&lt;/a&gt;
+			&lt;a href=&quot;#&quot; class=&quot;rating_off&quot;&gt;&lt;/a&gt;
+			&lt;a href=&quot;#&quot; class=&quot;rating_off&quot;&gt;&lt;/a&gt;
+		&lt;/div&gt;
+
+		&lt;!-- or just provide an empty container --&gt;
+		&lt;div id=&quot;rating_two&quot; class=&quot;rating_container&quot;&gt;&lt;/div&gt;
+	</code></pre>
+	<h3>JavaScript</h3><pre class="highlighted"><code class="javascript">
+	var rating_one = new Control.Rating('rating_one');
+	var rating_two = new Control.Rating('rating_two',{value: 2.4});
+	var rating_four = new Control.Rating('rating_four',{value: 4,rated: true});
+	var rating_five = new Control.Rating('rating_five',{value: 6,rated: false,max:9});
+	var rating_six = new Control.Rating('rating_six',{
+		value: 6,
+		rated: false,
+		min: 3,
+		max: 12,
+		multiple: true,
+		reverse: true
+	});
+	var rating_seven = new Control.Rating('rating_seven',{
+		input: 'rating_seven_input',
+		multiple: true
+	});
+	var rating_eight = new Control.Rating('rating_eight',{
+		input: 'rating_eight_select',
+		multiple: true
+	});
+</code></pre>
+	<h3>CSS</h3><pre class="highlighted"><code class="css">
+	.rating_container {
+		clear:both;
+	}
+
+	.rating_container a {
+		float:left;
+		display:block;
+		width:25px;
+		height:25px;
+		border:0;
+		background-image:url("/stylesheets/rating.gif");
+	}
+	
+	.rating_container a.rating_off {
+		background-position:0 0px;
+	}
+	
+	.rating_container a.rating_half {
+		background-position:0 -25px;
+	}
+	
+	.rating_container a.rating_on {
+		background-position:0 -50px;
+	}
+	
+	.rating_container a.rating_selected {
+		background-position:0 -75px;
+	}
+</code></pre>
+</div>
+
+<div id="api">
+	<h3>DOM Modifications</h3><p><b>Control.Rating.initialize()</b> will insert a series of <b>a</b> elements inside of the container you pass in, if the <b>a</b> elements to not already exist.</p>
+	
+		
+		
+	<h3>Class</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Return</td><td>Name</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="type first">mixed</td><td class="signature"><b>findByElementId(string id)</b></td><td class="last">Find any Control.Rating instance who's container has an id.</td></tr>
+		
+			<tr class="odd"><td class="type first">array</td><td class="signature"><b>instances</b></td><td class="last">All created Control.Rating instances.</td></tr>
+		
+	</tbody>
+</table>
+	
+		
+		
+		
+		
+		
+	<h3>Instance</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Return</td><td>Name</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="type first">Control.Rating</td><td class="signature"><b>initialize(Element container [, Hash options])</b></td><td class="last"></td></tr>
+		
+			<tr class="odd"><td class="type first">null</td><td class="signature"><b>disable()</b></td><td class="last">Removes all event handlers from the links.</td></tr>
+		
+			<tr class="even"><td class="type first">null</td><td class="signature"><b>setValue(number value [,bool rated [,bool prevent_callbacks]])</b></td><td class="last">Set the value of the ratings widget and redraw it. Setting force_selected to true will draw the input as if it has been rated, but will not mark it as rated in the options hash. Setting prevent_callbacks to true will prevent the afterChange event and optional Ajax request from firing.</td></tr>
+		
+			<tr class="odd"><td class="type first">Element</td><td class="signature"><b>container</b></td><td class="last"></td></tr>
+		
+			<tr class="even"><td class="type first">number</td><td class="signature"><b>value</b></td><td class="last"></td></tr>
+		
+	</tbody>
+</table>
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+                
+		
+	<h3>Options</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Type</td><td>Name</td><td>Default</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="type first">bool</td><td><b>capture</b></td><td class="default">true</td><td class="last">Stop the click event on each rating to propagate.</td></tr>
+		
+			<tr class="odd"><td class="type first">Hash</td><td><b>classNames</b></td><td class="default">{off: 'rating_off', half: 'rating_half', on: 'rating_on', selected: 'rating_selected'}</td><td class="last">Hash of state dependent class names.</td></tr>
+		
+			<tr class="even"><td class="type first">mixed</td><td><b>input</b></td><td class="default">false</td><td class="last">false or string id, or Element object of a text, hidden, or select input.</td></tr>
+		
+			<tr class="odd"><td class="type first">number</td><td><b>max</b></td><td class="default">5</td><td class="last"></td></tr>
+		
+			<tr class="even"><td class="type first">number</td><td><b>min</b></td><td class="default">1</td><td class="last"></td></tr>
+		
+			<tr class="odd"><td class="type first">bool</td><td><b>multiple</b></td><td class="default">false</td><td class="last">Can the user rate multiple times.</td></tr>
+		
+			<tr class="even"><td class="type first">bool</td><td><b>rated</b></td><td class="default">false</td><td class="last">Has the widget already been rated.</td></tr>
+		
+			<tr class="odd"><td class="type first">bool</td><td><b>reverse</b></td><td class="default">false</td><td class="last">Display the links in reverse order.</td></tr>
+		
+			<tr class="even"><td class="type first">Hash</td><td><b>updateOptions</b></td><td class="default">{}</td><td class="last"><a href="http://prototypejs.org/api/ajax/options">Ajax Options</a> for the request.</td></tr>
+		
+			<tr class="odd"><td class="type first">string</td><td><b>updateParameterName</b></td><td class="default">'value'</td><td class="last">The name of the POST key that will contain the value.</td></tr>
+		
+			<tr class="even"><td class="type first">mixed</td><td><b>updateUrl</b></td><td class="default">false</td><td class="last">false or string URL to post an Ajax request to when the value changes.</td></tr>
+		
+			<tr class="odd"><td class="type first">number</td><td><b>value</b></td><td class="default">null</td><td class="last">Default value, gets set into the value property of the instance and discarded from the options hash. Anything that is not a whole number (i.e. 3.1) results in a the 'half' class name being assigned.</td></tr>
+		
+	</tbody>
+</table>
+
+	
+		
+	<h3>Events</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Name</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="first"><b>afterChange(number value)</b></td><td class="last"></td></tr>
+		
+	</tbody>	
+</table>	
+	
+</div>
+
+						
+						
+						
+					</div>
+				</div>
+				<div id="footer">
+					<p>Created by <a href="http://syntacticx.com/">Ryan Johnson</a> &copy; 2008 <a href="http://personalgrid.com/">PersonalGrid Corporation</a></p>
+				</div>
+			</div>
+		</div>
+                <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+                <script type="text/javascript">
+//<![CDATA[
+
+                  _uacct = "UA-176241-1"; urchinTracker();
+                
+//]]>
+</script>
+
+	</body>
+</html>

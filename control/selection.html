@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+	<head>
+                <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+		<title>Control.Selection : Programmable object selection API for Prototype</title>
+		<link rel="stylesheet" href="/stylesheets/screen.css" media="screen"/>
+                <script src="/javascripts/all.js?1256410438" type="text/javascript"></script>
+		
+	<style>
+		
+	#control_selection_drag_proxy {
+		background-color:#333;
+		color:#fff;
+		font-family:"Lucida Grande",Verdana;
+		font-weight:bold;
+		font-size:10px;
+		padding:10px 15px 10px 15px;
+		margin-left:-3px;
+		margin-top:-20px;
+		-moz-border-radius: 10px;
+		-webkit-border-radius: 10px;
+	}
+	
+	#selection_container {
+		width:100%;
+		height:300px;
+		background-color:#f7f7f7;
+		border:1px solid #aaa;
+		position:relative;
+	}
+	
+	#selection_container #files .file {
+		background-color:#ccc;
+	}
+	
+	#selection_container #files .file.selected {
+		background-color:#aaa;
+	}
+	
+	/*
+	file_doc.png
+	file_image.png
+	file_pdf.png
+	file_video.png
+	file_xls.png
+	folder.png
+	*/
+
+	</style>
+	<script>
+		document.observe('dom:loaded',function(){
+			
+/*
+	Control.Selection.load();
+	Control.Selection.enable();
+	$('selection_check').observe('change',function(){
+		Control.Selection[this.checked ? 'enable' : 'disable']();
+	});
+	Control.Selection.observe('selected',function(item){
+		item.addClassName('selected');
+	});
+	Control.Selection.observe('deselected',function(item){
+		item.removeClassName('selected');
+	});
+	$$('#selection_container #files .file').each(function(item){
+		Control.Selection.addSelectable(item);
+	});
+*/
+
+		});
+	</script>
+
+	</head>
+	<body class="control">
+		
+		<div id="outer_container">
+			<div id="container">
+				<div id="header">
+					<h2><a href="http://livepipe.net/"><span>LivePipe&trade; : User Interface Components for Prototype</span></a></h2>
+					<ul id="navigation">
+						<li><a href="http://livepipe.net/">Home</a></li>
+						<li><a href="http://livepipe.net/core">Core</a></li>
+						<li class="active"><a href="http://livepipe.net/control">Controls</a></li>
+						<li><a href="http://livepipe.net/extra">Extras</a></li>
+						<li><a href="http://livepipe.net/download">Download &amp; Contribute</a></li>
+					</ul>
+				</div>
+				<div id="main">
+					<div id="main_container">
+						<a href="http://syntacticx.com/" id="syntacticx"><span>Created by Syntacticx</span></a>
+						<ul id="subnavigation">
+	<li class="first"><a href="http://livepipe.net/control/contextmenu">ContextMenu</a></li>
+	<!--<li><a href="http://livepipe.net/control/pagination">Pagination</a></li>-->
+	<li><a href="http://livepipe.net/control/progressbar">ProgressBar</a></li>
+	<li><a href="http://livepipe.net/control/rating">Rating</a></li>
+	<li><a href="http://livepipe.net/control/scrollbar">ScrollBar</a></li>
+	<li><a href="http://livepipe.net/control/selectmultiple">SelectMultiple</a></li>
+	<li class="active"><a href="http://livepipe.net/control/selection">Selection</a></li>
+	<li><a href="http://livepipe.net/control/tabs">Tabs</a></li>
+	<li><a href="http://livepipe.net/control/textarea">TextArea</a></li>
+	<li><a href="http://livepipe.net/control/window">Window</a></li>
+</ul>
+
+
+
+
+
+
+
+<h1>Control.Selection</h1>
+<p class="introduction">Programmable object selection API for Prototype.</p>
+
+
+
+	
+	
+	
+<ul class="subsection_tabs" id="main_tabs" style="clear:none;">
+
+	<li class="source_code"><a href="http://github.com/beastridge/livepipe-ui/tree/master/src/selection.js">selection.js source</a></li>
+
+
+	<li class="tab"><a href="#tutorial">Tutorial</a></li>
+
+	<li class="tab"><a href="#api">API</a></li>
+
+</ul>
+<script>
+	document.observe('dom:loaded',function(){
+		new Control.Tabs('main_tabs',{
+			linkSelector: 'li.tab a'
+		});
+	});
+</script>
+
+
+<div id="tutorial">
+	<p>Selection tutorial is coming soon.</p>
+	<!--
+	<h3><p style="border:none; padding:0; margin:0; float:right;"><input type="checkbox" id="selection_check" checked="true"/><span><b>Enable Control.Selection?</b></span></p>Example</h3>
+	<div id="selection_container">
+		<div id="files">
+			<div class="file"><div></div><span>a.jpg</span></div>
+			<div class="file"><div></div><span>b.jpg</span></div>
+			<div class="file"><div></div><span>c.jpg</span></div>
+			<div class="file"><div></div><span>d.jpg</span></div>
+			<div class="file"><div></div><span>e.jpg</span></div>
+		</div>
+		<div id="folders">
+			
+		</div>
+	</div>
+	-->
+</div>
+
+<div id="api">
+	<h3>DOM Modifications</h3><p><b>Control.Selection.load()</b> will insert <b>div#control_selection</b> as a child of document.body. <b>Control.Selection.DragProxy.load()</b> will be called if the <b>drag_proxy</b> option in <b>Control.Selection.load()</b> is set to true, and will insert <b>div#control_selection_drag_proxy</b> as a child of document.body.</p>
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	<h3>Class</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Return</td><td>Name</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="type first">null</td><td class="signature"><b>load([Hash options])</b></td><td class="last"></td></tr>
+		
+			<tr class="odd"><td class="type first">null</td><td class="signature"><b>addSelectable(Element selectable [,object related [, mixed activation_targets [,function activation_target_callback]]])</b></td><td class="last">See <a href="#add_selectable">Control.Selection.addSelectable()</a>.</td></tr>
+		
+			<tr class="even"><td class="type first">null</td><td class="signature"><b>deselect()</b></td><td class="last"></td></tr>
+		
+			<tr class="odd"><td class="type first">null</td><td class="signature"><b>disable()</b></td><td class="last"></td></tr>
+		
+			<tr class="even"><td class="type first">null</td><td class="signature"><b>enable()</b></td><td class="last">Must be explicitly called.</td></tr>
+		
+			<tr class="odd"><td class="type first">null</td><td class="signature"><b>recalculateLayout()</b></td><td class="last">Call when the page layout changes. Calculates dimensions and position of all selectable elements.</td></tr>
+		
+			<tr class="even"><td class="type first">null</td><td class="signature"><b>removeSelectable(Element selectable)</b></td><td class="last"></td></tr>
+		
+			<tr class="odd"><td class="type first">null</td><td class="signature"><b>select(mixed selection)</b></td><td class="last">A single Element, or an array of Elements. Will destroy the existing selection.</td></tr>
+		
+			<tr class="even"><td class="type first">bool</td><td class="signature"><b>active</b></td><td class="last"></td></tr>
+		
+			<tr class="odd"><td class="type first">array</td><td class="signature"><b>elements</b></td><td class="last">Returns an array of all selectable elements that are currently selected.</td></tr>
+		
+			<tr class="even"><td class="type first">array</td><td class="signature"><b>objects</b></td><td class="last">See <a href="#related_objects">Accessing a Selectable's Related Object</a></td></tr>
+		
+	</tbody>
+</table>
+	<div id="add_selectable">
+		<h3>Control.Selection.addSelectable()</h3><p><b>related</b> is an object that will become available in the <b>Control.Selection.objects</b> array. <b>activation_targets</b> is an Element, or an array of Elements, all of which interact with the DragProxy. The simplest explanation is in the Windows Explorer/Finder column views. Each file/folder row is <b>selectable</b>, but you must click directly on the file or folder icon &amp; label (<b>activation_targets</b>) to drag the items.</p>
+	</div>
+	<div id="related_objects">
+		<h3>Accessing a Selectable's Related Object</h3><p>When using addSelectable() you can pass in an optional related object for each element (the original intent was to allow a controller object that relates to an element to be easily accessible without creating circular references). If you do not pass in a related object, the related object is still populated, but with a <b>null</b>. This way a given related object will have the same index as it's element in the <b>elements</b> and <b>objects</b> arrays.</p>
+		<pre class="highlighted"><code class="javascript">
+			Control.Selection.addSelectable(element_1,related_1);
+			Control.Selection.addSelectable(element_2,related_2);
+			Control.Selection.select(element_1);
+			Control.Selection.elements.each(function(element,i){
+				var related = Control.Selection.objects[i];
+			});
+		</code></pre>
+	</div>
+	<h3>Class Options</h3><p>Class options are set once during <b>load()</b>, or can be set via <b>Control.Selection.options.option_name = value;</b></p>
+	
+		
+		
+		
+				
+	<table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Type</td><td>Name</td><td>Default</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="type first">bool</td><td><b>drag_proxy</b></td><td class="default">false</td><td class="last"></td></tr>
+		
+			<tr class="odd"><td class="type first">Hash</td><td><b>drag_proxy_options</b></td><td class="default">{}</td><td class="last"></td></tr>
+		
+			<tr class="even"><td class="type first">string</td><td><b>selection_id</b></td><td class="default">'control_selection'</td><td class="last">id of the selection div.</td></tr>
+		
+			<tr class="odd"><td class="type first">Hash</td><td><b>selection_style</b></td><td class="default">{zIndex: 999, cursor: 'default', border: '1px dotted #000'}</td><td class="last">Hash of styles to apply to the selection div.</td></tr>
+		
+	</tbody>
+</table>
+
+	
+		
+		
+		
+	<h3>Events</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Name</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="even"><td class="first"><b>change(array selectable_elements, array related_objects)</b></td><td class="last">Contains all currently selected elements/objects, does not contain the delta.</td></tr>
+		
+			<tr class="odd"><td class="first"><b>deselected(Element selectable, mixed related)</b></td><td class="last"></td></tr>
+		
+			<tr class="even"><td class="first"><b>selected(Element selectable, mixed related)</b></td><td class="last"></td></tr>
+		
+	</tbody>	
+</table>	
+
+	
+		
+	<h3>Control.Selection.DragProxy Class</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Return</td><td>Name</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="odd"><td class="type first">bool</td><td class="signature"><b>active</b></td><td class="last"></td></tr>
+		
+	</tbody>
+</table>
+	
+		
+		
+	<h3>Control.Selection.DragProxy Events</h3><table cellpadding="0" cellspacing="0" width="100%" class="api_table">
+	<thead>
+		<tr><td>Name</td><td class="description">Description</td></tr>
+	</thead>
+	<tbody>
+		
+			<tr class="odd"><td class="first"><b>start(Element dragproxy_container,array selectable_elements)</b></td><td class="last"></td></tr>
+		
+			<tr class="even"><td class="first"><b>stop()</b></td><td class="last"></td></tr>
+		
+	</tbody>	
+</table>	
+
+</div>
+
+						
+						
+						
+					</div>
+				</div>
+				<div id="footer">
+					<p>Created by <a href="http://syntacticx.com/">Ryan Johnson</a> &copy; 2008 <a href="http://personalgrid.com/">PersonalGrid Corporation</a></p>
+				</div>
+			</div>
+		</div>
+                <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+                <script type="text/javascript">
+//<![CDATA[
+
+                  _uacct = "UA-176241-1"; urchinTracker();
+                
+//]]>
+</script>
+
+	</body>
+</html>
